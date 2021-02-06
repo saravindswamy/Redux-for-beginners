@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { useSelector, useDispatch } from "react-redux";
+import { increment, decrement, isLogged } from "./actions";
 
 function App() {
+  const counter = useSelector((state) => state.counter);
+  const logged = useSelector((state) => state.login);
+  const dispatch = useDispatch();
+
+  let signin_status = "";
+  if (logged === false) {
+    signin_status = "sign_in";
+  } else {
+    signin_status = "sign_out";
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Counter : {counter}</h1>
+
+      <button onClick={() => dispatch(increment())}>Increment</button>
+      <button onClick={() => dispatch(decrement())}>Decrement</button>
+      <button onClick={() => dispatch(isLogged())}> {signin_status}</button>
+      {logged ? (
+        <p>This is a valuable information </p>
+      ) : (
+        <h1>Please login to see the content</h1>
+      )}
     </div>
   );
 }
